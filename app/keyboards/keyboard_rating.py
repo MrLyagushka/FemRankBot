@@ -2,7 +2,7 @@ from app.utils.menu import Menu
 
 keyboard_rating_first_choice = Menu('inline', 2)
 keyboard_rating_first_choice.new_button("Мили фембои", 1, callback_data="cute_femboys")
-keyboard_rating_first_choice.new_button("Мили подкачанные фембои", 2, callback_data="cute_pumped_up_femboys")
+keyboard_rating_first_choice.new_button("Подкачанные фембои", 2, callback_data="cute_pumped_up_femboys")
 
 keyboard_rating_cute_femboys = Menu('inline', 2)
 keyboard_rating_cute_femboys.new_button('Ножки', 1, callback_data='cute_femboys_legs')

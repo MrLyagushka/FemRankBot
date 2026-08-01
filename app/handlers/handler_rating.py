@@ -11,7 +11,7 @@ router_rating = Router()
 async def rating_start(message: Message, state: FSMContext):
     await state.clear()
 
-    await message.answer("Выбери направление:", reply_markup=keyboard_rating_first_choice.markup)
+    await message.answer("Выбери сторону:", reply_markup=keyboard_rating_first_choice.markup)
 
 @router_rating.callback_query(F.data == "cute_femboys")
 async def rating_cute_femboys(callback: CallbackQuery):

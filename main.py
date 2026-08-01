@@ -12,6 +12,8 @@ from app.handlers.handler_my_photos import router_my_photos
 from app.handlers.handler_groups import router_groups
 from app.handlers.service_handlers import router_service_handlers
 from app.handlers.handler_download_a_photos import router_download_photos
+from app.handlers.handler_archive import router_archive
+
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
@@ -21,7 +23,7 @@ async def main():
 
     dp.update.outer_middleware(spam_middleware)
 
-    dp.include_routers(router_start, router_chat_member, router_rating, router_my_photos, router_groups, router_service_handlers, router_download_photos)
+    dp.include_routers(router_start, router_chat_member, router_rating, router_my_photos, router_groups, router_service_handlers, router_download_photos, router_archive)
     await dp.start_polling(bot)
 
 if __name__ == '__main__':

@@ -15,7 +15,7 @@ router_my_photos = Router()
 @router_my_photos.message(F.text == "Мои фоточки")
 async def my_photos_start(message: Message, state: FSMContext):
     await state.clear()
-    await message.answer("Выберите:", reply_markup=keyboard_my_photos_first_choice.markup)
+    await message.answer("Скинешь ножки?):", reply_markup=keyboard_my_photos_first_choice.markup)
 
 @router_my_photos.callback_query(F.data == "new_photos")
 async def my_photos_new_photos(callback: CallbackQuery, state: FSMContext):
@@ -46,5 +46,5 @@ async def my_photos_back_my_photos_first_choice(callback: CallbackQuery, state: 
 @router_my_photos.callback_query(F.data == "saving_in_archive")
 async def my_photos_saving_in_archive(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
-    await callback.message.edit_text(inline_message_id=callback.inline_message_id, text='Выберите группу: ')
+    await callback.message.edit_text(inline_message_id=callback.inline_message_id, text='Выберите счастливчиков: ')
     await callback.message.edit_reply_markup(callback.inline_message_id, reply_markup= await DinamicKeyboard(1, 3, 'no', 0, f'groups_{callback.message.from_user.id}').generate_keyboard())

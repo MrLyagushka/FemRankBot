@@ -9,5 +9,5 @@ keyboard_my_photos_new_photos.new_button('Закончить отправку✅
 keyboard_my_photos_new_photos.new_button('Назад', 2, callback_data="back_my_photos_first_choice")
 
 keyboard_my_photos_is_sending = Menu('inline', 1)
-keyboard_my_photos_is_sending.new_button('Отправить', 1, callback_data='send')
-keyboard_my_photos_is_sending.new_button('Сохранить', 1, callback_data='saving_in_archive')
+keyboard_my_photos_is_sending.new_button('Сохранить', 1, callback_data='send')
+keyboard_my_photos_is_sending.new_button('Отправить', 1, callback_data='saving_in_archive')
