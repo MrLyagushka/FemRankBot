@@ -5738,3 +5738,11 @@ INFO:aiogram.event:Update id=150676372 is handled. Duration 108 ms by bot id=899
 INFO:aiogram.event:Update id=150676373 is not handled. Duration 0 ms by bot id=8998435518
 INFO:aiogram.event:Update id=150676374 is handled. Duration 235 ms by bot id=8998435518
 INFO:aiogram.event:Update id=150676375 is handled. Duration 327 ms by bot id=8998435518
+INFO:aiogram.dispatcher:Start polling
+INFO:aiogram.dispatcher:Run polling for bot @FemRankBot id=8998435518 - 'FemRank'
+INFO:aiogram.dispatcher:Start polling
+INFO:aiogram.dispatcher:Run polling for bot @FemRankBot id=8998435518 - 'FemRank'
+INFO:aiogram.dispatcher:Start polling
+INFO:aiogram.dispatcher:Run polling for bot @FemRankBot id=8998435518 - 'FemRank'
+INFO:aiogram.dispatcher:Start polling
+INFO:aiogram.dispatcher:Run polling for bot @FemRankBot id=8998435518 - 'FemRank'
