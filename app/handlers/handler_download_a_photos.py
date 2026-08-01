@@ -35,13 +35,13 @@ async def download_photos_start(message: Message, state: FSMContext, bot: Bot):
         file_id = (message.photo)[-1].file_id
         media_group_id = 0
         db = DB_DownloadPhoto(PATH_TO_DB_PHOTO)
-        await db.new_download_photo(user_id, file_id, media_group_id, text)
-        if db.primary_key == -999999999:
+        primary_key = await db.new_download_photo(user_id, file_id, media_group_id, text)
+        if primary_key == -999999999:
             await message.answer("Это фото уже есть в вашем архиве, пришлите другое", reply_markup=keyboard_my_photos_first_choice.markup)
         else:
             await state.update_data(count=1)
             await state.update_data(file_id=file_id)
-            await state.update_data(id=db.primary_key)
+            await state.update_data(id=primary_key)
             await db.close()
             await state.set_state(DownloadPhotos.successfuly)
             await message.answer('Выберите счастливчиков: ', reply_markup= await DinamicKeyboard(1, 3, 'no', 0, f'groups_{message.from_user.id}').generate_keyboard())
@@ -66,15 +66,24 @@ async def my_photos_callback_data_groups(callback: CallbackQuery, bot: Bot, stat
     count = (await state.get_data())['count']
     if count == 1:
         primary_key = (await state.get_data())['id']
-        file_id = (await state.get_data())['file_id']
+        db = DB_DownloadPhoto(PATH_TO_DB_PHOTO)
+        groups_where_id = await db.get_download_photo_where_id(primary_key)
+        file_id = groups_where_id['file_id']
         await bot.send_photo(chat_id=group_id, photo=file_id, reply_markup=await RatingKeyboard(primary_key).generate_keyboard())
-        await callback.message.edit_text(inline_message_id=callback.inline_message_id, text="Фото успешно отправлено")
-        await callback.message.delete_reply_markup(inline_message_id=callback.inline_message_id)
+        try:
+            await callback.message.edit_text(inline_message_id=callback.inline_message_id, text="Фото успешно отправлено")
+            await callback.message.delete_reply_markup(inline_message_id=callback.inline_message_id)
+        except Exception as e:
+            try:
+                await callback.message.edit_caption(inline_message_id=callback.inline_message_id, caption="Фото успешно отправлено")
+                await callback.message.delete_reply_markup(inline_message_id=callback.inline_message_id)
+            except Exception as e:
+                pass
     elif count > 1:
         media_group_id = (await state.get_data())['media_group_id']
         db = DB_DownloadPhoto(PATH_TO_DB_PHOTO)
-        await db.get_download_photo()
-        datas = [[x['id'],x['file_id']] for x in db.groups if x['media_group_id'] == int(media_group_id)]
+        groups = await db.get_download_photo()
+        datas = [[x['id'],x['file_id']] for x in groups if x['media_group_id'] == int(media_group_id)]
         for data in datas:
             await bot.send_photo(chat_id=group_id, photo=f"{data[1]}", reply_markup=await RatingKeyboard(data[0]).generate_keyboard())
         await db.close()

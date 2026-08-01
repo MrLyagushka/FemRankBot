@@ -18,7 +18,7 @@ class DB_DownloadPhoto():
         # Индекс для mark
         cursor = await self.db.execute("""
             CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_mark 
-            ON mark(user_id, author_id)
+            ON mark(p_id, user_id, author_id)
         """)
         await self.db.commit()
     
@@ -26,10 +26,10 @@ class DB_DownloadPhoto():
         await self._ensure_connection()
         data = await self.db.execute("INSERT OR IGNORE INTO photo (user_id, file_id, media_group_id, caption) VALUES (?, ?, ?, ?) RETURNING id", (user_id, file_id, media_group_id, caption))
         try:
-            self.primary_key = (await data.fetchone())['id']
+            return (await data.fetchone())['id']
+            await self.db.commit()
         except TypeError:
-            self.primary_key = -999999999
-        await self.db.commit()
+            return -999999999
     
     async def update_download_photo(self, file_id, BLOB):
         await self._ensure_connection()
@@ -39,21 +39,26 @@ class DB_DownloadPhoto():
     async def get_download_photo(self):
         await self._ensure_connection()
         cursor = await self.db.execute("SELECT id, user_id, file_id, media_group_id, caption FROM photo")
-        self.groups = await cursor.fetchall()
+        return await cursor.fetchall()
+
+    async def delete_photo(self, primary_key):
+        await self._ensure_connection()
+        await self.db.execute("DELETE FROM photo WHERE id = ?", (primary_key,))
+        await self.db.commit()
 
     async def get_download_photo_where_id(self, id):
         await self._ensure_connection()
         cursor = await self.db.execute("SELECT user_id, file_id, media_group_id, caption FROM photo WHERE id=?", (id,))
-        self.groups_where_id = await cursor.fetchone()
+        return await cursor.fetchone()
 
     async def get_download_photo_where_user_id(self, user_id):
         await self._ensure_connection()
         cursor = await self.db.execute("SELECT id, file_id, media_group_id, caption FROM photo WHERE user_id=?", (user_id,))
-        self.groups_where_user_id = await cursor.fetchall()
+        return await cursor.fetchall()
 
-    async def new_mark(self, user_id, author_id, mark):
+    async def new_mark(self, p_id, user_id, author_id, mark):
         await self._ensure_connection()
-        cursor = await self.db.execute("INSERT INTO mark (user_id, author_id, mark) VALUES (?, ?, ?) ON CONFLICT(user_id, author_id) DO UPDATE SET mark = excluded.mark ", (user_id, author_id, mark))
+        cursor = await self.db.execute("INSERT INTO mark (p_id, user_id, author_id, mark) VALUES (?, ?, ?, ?) ON CONFLICT(p_id, user_id, author_id) DO UPDATE SET mark = excluded.mark ", (p_id, user_id, author_id, mark))
         await self.db.commit()
     
     async def update_mark(self, mark_id, mark):
@@ -68,12 +73,13 @@ class DB_DownloadPhoto():
 
     async def get_average_mark(self, primary_key):
             await self._ensure_connection()
-            cursor = await self.db.execute("SELECT mark FROM mark WHERE id = ?", (primary_key,))
+            cursor = await self.db.execute("SELECT mark FROM mark WHERE p_id = ?", (primary_key,))
             marks = await cursor.fetchall()
+            marks = [mark['mark'] for mark in marks]
             try:
-                self.average_mark=round(sum(marks)/len(marks),1)
+                return round(sum(marks)/len(marks),1)
             except ZeroDivisionError:
-                self.average_mark='⭐️'
+                return '⭐️'
     async def close(self):
         if self.db:
             await self.db.close()

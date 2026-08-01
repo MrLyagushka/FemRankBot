@@ -15,9 +15,10 @@ async def archive_start(callback: CallbackQuery, state: FSMContext):
     await state.update_data(first_index=0)
     await callback.answer()
     db = DB_DownloadPhoto(PATH_TO_DB_PHOTO)
-    await db.get_download_photo_where_user_id(callback.from_user.id)
-    if db.groups_where_user_id == []:
+    groups_where_user_id = await db.get_download_photo_where_user_id(callback.from_user.id)
+    await state.update_data(tick_index=0)
+    if groups_where_user_id == []:
         await callback.message.answer("Ваш архив пуст")
     else:
-        await callback.message.answer_photo(photo=f"{db.groups_where_user_id[0]['file_id']}" ,caption='Ваши фото :З', reply_markup=await DinamicKeyboard(1,3,'no',0,f"archive_{callback.from_user.id}").generate_keyboard())
+        await callback.message.answer_photo(photo=f"{groups_where_user_id[0]['file_id']}" ,caption='Ваши фото :З', reply_markup=await DinamicKeyboard(1,3,'no',0,f"archive_{callback.from_user.id}").generate_keyboard())
         await db.close()

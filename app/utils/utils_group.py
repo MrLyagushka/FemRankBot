@@ -23,7 +23,7 @@ class DB_Group():
     async def get_groups(self):
         await self._ensure_connection()
         cursor = await self.db.execute("SELECT * FROM group_data")
-        self.groups = await cursor.fetchall()
+        return await cursor.fetchall()
     
     async def close(self):
         if self.db:

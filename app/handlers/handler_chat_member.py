@@ -18,14 +18,14 @@ async def chat_member_chat_member_ship(update: ChatMemberUpdated, bot: Bot):
         new_status = update.new_chat_member.status
 
         db = DB_Group(PATH_TO_DB_DATA)
-        await db.get_groups()
-        if chat_id not in [x['id'] for x in db.groups]:
+        groups = await db.get_groups()
+        if chat_id not in [x['id'] for x in groups]:
             await db.new_group(chat_id, chat_type, new_status, chat_name)
             for admin_id in ADMIN_ID:
                 await bot.send_message(chat_id=admin_id, text=f"Бот добавлен в группу: \n{chat_name}\nТеперь статус бота: \n{new_status}")
             await bot.send_message(chat_id=chat_id, text="Всем хай! Через меня можно отсылать фоточки на оценку в группы)")
         else:
-            for chat_data in db.groups:
+            for chat_data in groups:
                 if chat_data['id'] == chat_id and chat_data['status'] != new_status:
                     await db.update_group(chat_id, chat_type, new_status, chat_name)
                     if new_status == "administrator":
