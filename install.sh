@@ -63,11 +63,11 @@ USERS_DB="./app/db/photo.db"
 
 # Инициализация data.db
 if [ ! -f "$TASK_DB" ]; then
-    if [ -f "./db/data_schema.sql" ]; then
-        echo "   → Создаём task.db из файла схемы..."
-        sqlite3 "$TASK_DB" < "./db/data_schema.sql"
+    if [ -f "./db/data.db.sql" ]; then
+        echo "   → Создаём data.db из файла схемы..."
+        sqlite3 "$TASK_DB" < "./db/data.db.sql"
     else
-        echo "❌ Ошибка: Файл ./db/data_schema.sql не найден!"
+        echo "❌ Ошибка: Файл ./db/data.db.sql не найден!"
         exit 1
     fi
 else
@@ -76,11 +76,11 @@ fi
 
 # Инициализация photo.db
 if [ ! -f "$USERS_DB" ]; then
-    if [ -f "./db/photo_schema.sql" ]; then
-        echo "   → Создаём users.db из файла схемы..."
-        sqlite3 "$USERS_DB" < "./db/photo_schema.sql"
+    if [ -f "./db/photo.db.sql" ]; then
+        echo "   → Создаём photo.db из файла схемы..."
+        sqlite3 "$USERS_DB" < "./db/photo.db.sql"
     else
-        echo "❌ Ошибка: Файл ./db/photo_schema.sql не найден!"
+        echo "❌ Ошибка: Файл ./db/photo.db.sql не найден!"
         exit 1
     fi
 else
