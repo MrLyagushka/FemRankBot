@@ -3,3 +3,5 @@ venv/
 logging.log
 app\db\data.db
 app\db\photo.db
+app/db/data.db
+app/db/photo.db
