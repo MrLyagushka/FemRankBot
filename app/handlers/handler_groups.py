@@ -4,7 +4,10 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import Message, CallbackQuery
 
 from app.keyboards.keyboard_groups import keyboard_groups_start
+from app.keyboards.keyboard_my_photos import keyboard_my_photos_first_choice
 from app.utils.dinamic_keyboard import DinamicKeyboard
+from app.utils.utils_group import DB_Group
+from config import PATH_TO_DB_DATA
 
 router_groups = Router()
 
@@ -12,4 +15,9 @@ router_groups = Router()
 async def groups_start(message: Message, state: FSMContext):
     await state.clear()
 
-    await message.answer("Выберите группу", reply_markup = await DinamicKeyboard(1, 3, 'no', 0, f'groups_{message.from_user.id}').generate_keyboard())
+    db = DB_Group(PATH_TO_DB_DATA)
+    group = await db.get_groups()
+    if group != []:
+        await message.answer('Выберите счастливчиков: ', reply_markup= await DinamicKeyboard(1, 3, 'no', 0, f'groups_{message.from_user.id}').generate_keyboard())
+    elif group == []:
+        await message.answer(text="Нет подключенных групп, обратитесь к админу @cute_femboychik_3", reply_markup=keyboard_my_photos_first_choice.markup)
