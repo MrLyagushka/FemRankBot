@@ -5,6 +5,8 @@ from aiogram.types import Message, CallbackQuery
 
 from app.keyboards.keyboard_my_photos import keyboard_my_photos_first_choice, keyboard_my_photos_new_photos, keyboard_my_photos_is_sending
 from app.utils.dinamic_keyboard import DinamicKeyboard
+from app.utils.utils_group import DB_Group
+from config import PATH_TO_DB_DATA
 
 class DownloadPhotos(StatesGroup):
     wait = State()
@@ -46,5 +48,11 @@ async def my_photos_back_my_photos_first_choice(callback: CallbackQuery, state: 
 @router_my_photos.callback_query(F.data == "saving_in_archive")
 async def my_photos_saving_in_archive(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
-    await callback.message.edit_text(inline_message_id=callback.inline_message_id, text='Выберите счастливчиков: ')
-    await callback.message.edit_reply_markup(callback.inline_message_id, reply_markup= await DinamicKeyboard(1, 3, 'no', 0, f'groups_{callback.message.from_user.id}').generate_keyboard())
+    db = DB_Group(PATH_TO_DB_DATA)
+    group = db.get_groups()
+    if group != []:
+        await callback.message.edit_text(inline_message_id=callback.inline_message_id, text='Выберите счастливчиков: ')
+        await callback.message.edit_reply_markup(callback.inline_message_id, reply_markup= await DinamicKeyboard(1, 3, 'no', 0, f'groups_{callback.message.from_user.id}').generate_keyboard())
+    elif group == []:
+        await callback.message.edit_text(inline_message_id=callback.inline_message_id, text="Нет подключенных групп, обратитесь к админу @cute_femboychik_3")
+        await callback.message.delete_reply_markup(inline_message_id=callback.inline_message_id)
