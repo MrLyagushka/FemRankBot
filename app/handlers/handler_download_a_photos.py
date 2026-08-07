@@ -8,7 +8,8 @@ from app.utils.utils_download_photos import DB_DownloadPhoto
 from app.handlers.handler_my_photos import my_photos_finish_sending, keyboard_my_photos_new_photos, keyboard_my_photos_first_choice, DownloadPhotos
 from app.utils.dinamic_keyboard import DinamicKeyboard, RatingKeyboard
 
-from config import PATH_TO_DB_PHOTO
+from app.utils.utils_group import DB_Group
+from config import PATH_TO_DB_DATA, PATH_TO_DB_PHOTO
 
 router_download_photos = Router()
 
@@ -45,6 +46,12 @@ async def download_photos_start(message: Message, state: FSMContext, bot: Bot):
             await db.close()
             await state.set_state(DownloadPhotos.successfuly)
             await message.answer('Выберите счастливчиков: ', reply_markup= await DinamicKeyboard(1, 3, 'no', 0, f'groups_{message.from_user.id}').generate_keyboard())
+            db = DB_Group(PATH_TO_DB_DATA)
+            group = db.get_groups()
+            if group != []:
+                await message.answer('Выберите счастливчиков: ', reply_markup= await DinamicKeyboard(1, 3, 'no', 0, f'groups_{message.from_user.id}').generate_keyboard())
+            elif group == []:
+                await message.answer(text="Нет подключенных групп, обратитесь к админу @cute_femboychik_3", reply_markup=keyboard_my_photos_first_choice.markup)
     else:
         asyncio.create_task(delete_(bot, chat_id, message_id, message, 2))
         user_id = message.from_user.id
