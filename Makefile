@@ -1,51 +1,44 @@
 # Игнорируем файлы с такими же именами, как команды
 .PHONY: help install reload start stop logs status clean db-clean
 
-# Команда по умолчанию, если написать просто "make"
+# Команда по умолчанию (срабатывает, если написать просто "make")
 .DEFAULT_GOAL := help
 
-help:
+help: ## ℹ️ Показать эту справку со списком команд
 	@echo "Доступные команды:"
-	@echo "  make install   - 🚀 Первичная установка (запуск install.sh)"
-	@echo "  make reload    - 🔄 Пересборка и перезапуск контейнеров (с применением новых изменений в коде)"
-	@echo "  make start     - ▶️ Запуск остановленных контейнеров"
-	@echo "  make stop      - ⏹️ Остановка контейнеров"
-	@echo "  make logs      - 📋 Просмотр логов в реальном времени (Ctrl+C для выхода)"
-	@echo "  make status    - 📊 Проверка статуса контейнеров"
-	@echo "  make clean     - 🧹 Удаление контейнеров бота и связанных сетей"
-	@echo "  make db-clean  - ⚠️ ВНИМАНИЕ: Удаление файлов баз данных (.db)!"
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  \033[36m%-12s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-install:
+install: ## 🚀 Первичная установка (запуск install.sh)
 	@chmod +x install.sh
 	@bash install.sh
 
-reload:
+reload: ## 🔄 Пересборка и перезапуск контейнеров (применит новый код)
 	@echo "🔄 Перезапуск и пересборка контейнеров..."
 	docker compose down
 	docker compose up -d --build
 	@echo "✅ Бот успешно перезапущен!"
 
-start:
+start: ## ▶️ Запуск остановленных контейнеров
 	@echo "▶️ Запуск бота..."
 	docker compose up -d
 
-stop:
+stop: ## ⏹️ Остановка контейнеров
 	@echo "⏹️ Остановка бота..."
 	docker compose down
 
-logs:
+logs: ## 📋 Просмотр логов в реальном времени (Ctrl+C для выхода)
 	@echo "📋 Вывод логов..."
 	docker compose logs -f
 
-status:
+status: ## 📊 Проверка статуса (работает ли бот)
 	@echo "📊 Статус контейнеров:"
 	docker compose ps
 
-clean:
+clean: ## 🧹 Удаление контейнеров бота и связанных сетей
 	@echo "🧹 Удаление контейнеров..."
 	docker compose down --remove-orphans
 
-db-clean:
+db-clean: ## ⚠️ ВНИМАНИЕ: Сброс и удаление файлов баз данных (.db)!
 	@echo "⚠️ Удаление баз данных..."
 	rm -f ./app/db/*.db
 	@echo "✅ Базы данных удалены. При следующем 'make install' они будут созданы заново."
