@@ -43,18 +43,18 @@ db-clean: ## ⚠️ ВНИМАНИЕ: Сброс и удаление файло�
 	rm -f ./app/db/*.db
 	@echo "✅ Базы данных удалены. При следующем 'make install' они будут созданы заново."
 
-safe-reload: ## 🔄 Безопасная пересборка (с включением сообщения о техобслуживании)
-	@echo "🛑 Останавливаем основного бота..."
-	docker compose stop bot_dzshka
-	@echo "🛠 Включаем бота-заглушку..."
-	docker compose --profile maintenance up -d stub
-	@echo "🏗 Собираем новую версию основного бота (это может занять время)..."
+fast-reload: ## ⚡ Сверхбыстрая пересборка с перехватом токена
+	@echo "🏗 1. Собираем нового бота (старый пока работает и отвечает)..."
 	docker compose build bot_dzshka
-	@echo "⏹️ Выключаем заглушку..."
-	docker compose --profile maintenance down
-	@echo "🚀 Запускаем обновленного бота..."
+	@echo "🛠 2. Включаем заглушку (она ждет освобождения токена)..."
+	docker compose --profile maintenance up -d stub
+	@echo "🛑 3. Выключаем старого бота (заглушка мгновенно перехватывает управление)..."
+	docker compose stop bot_dzshka
+	@echo "🚀 4. Запускаем обновленного бота..."
 	docker compose up -d bot_dzshka
-	@echo "✅ Обновление завершено! Бот снова в строю."
+	@echo "⏹️ 5. Выключаем заглушку..."
+	docker compose --profile maintenance down
+	@echo "✅ Обновление завершено! Простой составил менее секунды."
 
 update: ## Обновление с git репозетория
 	git pull origin main
