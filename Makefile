@@ -55,3 +55,6 @@ safe-reload: ## 🔄 Безопасная пересборка (с включе�
 	@echo "🚀 Запускаем обновленного бота..."
 	docker compose up -d bot_dzshka
 	@echo "✅ Обновление завершено! Бот снова в строю."
+
+update: ## Обновление с git репозетория
+	git pull origin main
