@@ -20,4 +20,4 @@ async def groups_start(message: Message, state: FSMContext):
     if group != []:
         await message.answer('Выберите счастливчиков: ', reply_markup= await DinamicKeyboard(1, 3, 'no', 0, f'groups_{message.from_user.id}').generate_keyboard())
     elif group == []:
-        await message.answer(text="Нет подключенных групп, обратитесь к админу @cute_femboychik_3", reply_markup=keyboard_my_photos_first_choice.markup)
+        await message.answer(text="Нет подключенных групп, добавьте бота в группу", reply_markup=keyboard_my_photos_first_choice.markup)
