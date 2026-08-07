@@ -6,13 +6,3 @@ services:
      container_name: bot_dzshka3
      restart: unless-stopped
      env_file: ./.env
-
-  stub:
-     image: python:3.10-alpine
-     container_name: bot_maintenance_stub
-     volumes:
-         - ./stub.py:/stub.py
-     command: python /stub.py
-     env_file: ./.env
-     profiles:
-         - maintenance  # Скрываем его от обычного запуска
