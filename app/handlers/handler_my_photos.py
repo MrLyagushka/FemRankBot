@@ -50,6 +50,7 @@ async def my_photos_saving_in_archive(callback: CallbackQuery, state: FSMContext
     await callback.answer()
     db = DB_Group(PATH_TO_DB_DATA)
     group = db.get_groups()
+    print(group)
     if group != []:
         await callback.message.edit_text(inline_message_id=callback.inline_message_id, text='Выберите счастливчиков: ')
         await callback.message.edit_reply_markup(callback.inline_message_id, reply_markup= await DinamicKeyboard(1, 3, 'no', 0, f'groups_{callback.message.from_user.id}').generate_keyboard())
