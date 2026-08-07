@@ -42,3 +42,16 @@ db-clean: ## ⚠️ ВНИМАНИЕ: Сброс и удаление файло�
 	@echo "⚠️ Удаление баз данных..."
 	rm -f ./app/db/*.db
 	@echo "✅ Базы данных удалены. При следующем 'make install' они будут созданы заново."
+
+safe-reload: ## 🔄 Безопасная пересборка (с включением сообщения о техобслуживании)
+	@echo "🛑 Останавливаем основного бота..."
+	docker compose stop bot_dzshka
+	@echo "🛠 Включаем бота-заглушку..."
+	docker compose --profile maintenance up -d stub
+	@echo "🏗 Собираем новую версию основного бота (это может занять время)..."
+	docker compose build bot_dzshka
+	@echo "⏹️ Выключаем заглушку..."
+	docker compose --profile maintenance down
+	@echo "🚀 Запускаем обновленного бота..."
+	docker compose up -d bot_dzshka
+	@echo "✅ Обновление завершено! Бот снова в строю."
