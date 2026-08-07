@@ -46,7 +46,7 @@ async def download_photos_start(message: Message, state: FSMContext, bot: Bot):
             await db.close()
             await state.set_state(DownloadPhotos.successfuly)
             db = DB_Group(PATH_TO_DB_DATA)
-            group = db.get_groups()
+            group = await db.get_groups()
             print(group)
             if group != []:
                 await message.answer('Выберите счастливчиков: ', reply_markup= await DinamicKeyboard(1, 3, 'no', 0, f'groups_{message.from_user.id}').generate_keyboard())
