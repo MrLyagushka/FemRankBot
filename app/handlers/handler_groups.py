@@ -18,6 +18,6 @@ async def groups_start(message: Message, state: FSMContext):
     db = DB_Group(PATH_TO_DB_DATA)
     group = await db.get_groups()
     if group != []:
-        await message.answer('Выберите счастливчиков: ', reply_markup= await DinamicKeyboard(1, 3, 'no', 0, f'groups_{message.from_user.id}').generate_keyboard())
+        await message.answer('Выберите группу для настройки: ', reply_markup= await DinamicKeyboard(1, 3, 'no', 0, f'groupssetting_{message.from_user.id}').generate_keyboard())
     elif group == []:
         await message.answer(text="Нет подключенных групп, добавьте бота в группу", reply_markup=keyboard_my_photos_first_choice.markup)

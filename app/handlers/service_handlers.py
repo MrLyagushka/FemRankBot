@@ -7,8 +7,11 @@ from aiogram.fsm.state import State, StatesGroup
 
 from app.utils.dinamic_keyboard import DinamicKeyboard, MyCallbackData, RatingKeyboard
 from app.utils.utils_download_photos import DB_DownloadPhoto
+from app.utils.utils_group import DB_Group
+from app.keyboards.keyboard_my_photos import keyboard_my_photos_first_choice
 
-from config import PATH_TO_DB_PHOTO, COLUMN_ARCHIVE, ROW_ARCHIVE
+from config import PATH_TO_DB_DATA, PATH_TO_DB_PHOTO, COLUMN_ARCHIVE, ROW_ARCHIVE
+
 
 router_service_handlers = Router()
 
@@ -90,7 +93,14 @@ async def service_handlers_dk_(callback: CallbackQuery, bot: Bot, state: FSMCont
         await bot.send_photo(chat_id=-1004376588120, photo=f"{groups_where_id['file_id']}")
         await db.delete_photo(primary_key)
     elif mode == "send":
-        await callback.message.edit_caption(inline_message_id=callback.inline_message_id, caption='Выберите счастливчиков: ')
-        await callback.message.edit_reply_markup(callback.inline_message_id, reply_markup= await DinamicKeyboard(1, 3, 'no', 0, f'groups_{callback.from_user.id}').generate_keyboard())
+        db = DB_Group(PATH_TO_DB_DATA)
+        group = await db.get_groups()
+        if group != []:
+            await callback.message.edit_caption(inline_message_id=callback.inline_message_id, caption='Выберите счастливчиков: ')
+            await callback.message.edit_reply_markup(callback.inline_message_id, reply_markup= await DinamicKeyboard(1, 3, 'no', 0, f'groups_{callback.from_user.id}').generate_keyboard())
+        elif group == []:
+            await callback.message.edit_caption(inline_message_id=callback.inline_message_id, caption="Нет подключенных групп, обратитесь к админу @cute_femboychik_3")
+            await callback.message.edit_reply_markup(inline_message_id=callback.inline_message_id, reply_markup=keyboard_my_photos_first_choice.markup)
+
     await db.close()
 
