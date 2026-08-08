@@ -30,8 +30,17 @@ async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
 
     db = DB_Group(PATH_TO_DB_DATA)
-    group = await db.get_groups()
+    group = [
+        {
+            'id': x['id'],
+            'type': x['type'],
+            'status': x['status'],
+            'full_name': x['full_name'],
+        }
+        for x in await db.get_groups()
+        if x['id'] == callback.data.split(' ')[1].split('_')[1]
+    ]
     logging.info(group)
-    await callback.message.edit_text(inline_message_id=callback.inline_message_id, text="Выберите действие")
+    await callback.message.edit_text(inline_message_id=callback.inline_message_id, text=f"Группа {group['full_name']}\nТип группы: {group['type']}\nId группы: {group['id']}\nСтатус бота в группе: {group['status']}")
     await callback.message.edit_reply_markup(inline_message_id=callback.inline_message_id, reply_markup=keyboard_groups_choice.markup)
 
