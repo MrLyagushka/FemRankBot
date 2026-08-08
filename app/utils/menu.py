@@ -30,7 +30,7 @@ class Menu:
             self.keyboard[row_number-1].append(InlineKeyboardButton(text=text, url=url, callback_data=callback_data))
             self.markup = InlineKeyboardMarkup(inline_keyboard=self.keyboard)
 
-    def update_button(self, old_text: str, text: str, row_number: int):
+    def update_button(self, old_text: str, text: str):
         for button in self.markup.inline_keyboard:
             if old_text == button[0].text:
                 button[0].text = text

@@ -36,11 +36,47 @@ async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
             'type': x['type'],
             'status': x['status'],
             'full_name': x['full_name'],
+            'on_off': x['on_off']
         }
         for x in await db.get_groups()
         if x['id'] == callback.data.split(' ')[1].split('_')[1]
     ]
+    await state.set_data(id=group['id'])
+
     logging.info(group)
+
     await callback.message.edit_text(inline_message_id=callback.inline_message_id, text=f"Группа {group['full_name']}\nТип группы: {group['type']}\nId группы: {group['id']}\nСтатус бота в группе: {group['status']}")
+    try:
+        if group['on_off'] == '0':
+            keyboard_groups_choice.update_button('✅Включено', '❌Выключено')
+        elif group['on_off'] == '1':
+            keyboard_groups_choice.update_button('❌Выключено', '✅Включено')
+    except Exception as e:
+        pass
     await callback.message.edit_reply_markup(inline_message_id=callback.inline_message_id, reply_markup=keyboard_groups_choice.markup)
 
+@router_groups.callback_query(F.data[:12] == 'groupsstatus')
+async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
+    await callback.answer()
+    data = (await state.get_data())['id']
+    db = DB_Group(PATH_TO_DB_DATA)
+    group = [
+        {
+            'id': x['id'],
+            'type': x['type'],
+            'status': x['status'],
+            'full_name': x['full_name'],
+            'on_off': x['on_off']
+        }
+        for x in await db.get_groups()
+        if x['id'] == data
+    ]
+    
+    try:
+        if group['on_off'] == '0':
+            keyboard_groups_choice.update_button('✅Включено', '❌Выключено')
+        elif group['on_off'] == '1':
+            keyboard_groups_choice.update_button('❌Выключено', '✅Включено')
+    except Exception as e:
+        pass
+    await callback.message.edit_reply_markup(inline_message_id=callback.inline_message_id, reply_markup=keyboard_groups_choice.markup)
