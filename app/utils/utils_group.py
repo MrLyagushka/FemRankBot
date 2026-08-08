@@ -12,7 +12,7 @@ class DB_Group():
     
     async def new_group(self, id, type, status, full_name):
         await self._ensure_connection()
-        await self.db.execute("INSERT INTO group_data (id, type, status, full_name) VALUES (?, ?, ?, ?)", (id, type, status, full_name))
+        await self.db.execute("INSERT INTO group_data (id, type, status, full_name, 1) VALUES (?, ?, ?, ?)", (id, type, status, full_name))
         await self.db.commit()
     
     async def update_group(self, id, type, status, full_name, on_off):
