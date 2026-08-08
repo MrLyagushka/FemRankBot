@@ -46,12 +46,12 @@ async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
 
     logging.info(group)
 
-    await callback.message.edit_text(inline_message_id=callback.inline_message_id, text=f"Группа {group['full_name']}\nТип группы: {group['type']}\nId группы: {group['id']}\nСтатус бота в группе: {group['status']}")
+    await callback.message.edit_text(inline_message_id=callback.inline_message_id, text=f"Группа '{group['full_name']}'\nТип группы: {group['type']}\nId группы: {group['id']}\nСтатус бота в группе: {group['status']}")
     try:
-        if group['on_off'] == '0':
+        if group['on_off'] == '1':
             db.update_group(group['id'], group['type'], group['status'], group['full_name'], group['on_off'])
             keyboard_groups_choice.update_button('✅Включено', '❌Выключено')
-        elif group['on_off'] == '1':
+        elif group['on_off'] == '0':
             db.update_group(group['id'], group['type'], group['status'], group['full_name'], group['on_off'])
             keyboard_groups_choice.update_button('❌Выключено', '✅Включено')
     except Exception as e:
@@ -75,13 +75,13 @@ async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
         if x['id'] == data
     ]
     
+    if group['on_off'] == '1':
+        db.update_group(group['id'], group['type'], group['status'], group['full_name'], group['on_off'])
+        keyboard_groups_choice.update_button('✅Включено', '❌Выключено')
+    elif group['on_off'] == '0':
+        db.update_group(group['id'], group['type'], group['status'], group['full_name'], group['on_off'])
+        keyboard_groups_choice.update_button('❌Выключено', '✅Включено')
     try:
-        if group['on_off'] == '0':
-            db.update_group(group['id'], group['type'], group['status'], group['full_name'], group['on_off'])
-            keyboard_groups_choice.update_button('✅Включено', '❌Выключено')
-        elif group['on_off'] == '1':
-            db.update_group(group['id'], group['type'], group['status'], group['full_name'], group['on_off'])
-            keyboard_groups_choice.update_button('❌Выключено', '✅Включено')
+        await callback.message.edit_reply_markup(inline_message_id=callback.inline_message_id, reply_markup=keyboard_groups_choice.markup)
     except Exception as e:
         pass
-    await callback.message.edit_reply_markup(inline_message_id=callback.inline_message_id, reply_markup=keyboard_groups_choice.markup)
