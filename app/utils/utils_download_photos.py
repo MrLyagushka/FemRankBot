@@ -10,7 +10,7 @@ class DB_DownloadPhoto():
             self.db = await aiosqlite.connect(self.path_to_db)
             self.db.row_factory = aiosqlite.Row 
 
-            cursor = await self.db.execute("""
+        cursor = await self.db.execute("""
             CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_photo 
             ON photo(user_id, file_id, media_group_id)
         """)
