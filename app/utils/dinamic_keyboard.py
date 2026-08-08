@@ -71,13 +71,13 @@ class DinamicKeyboard():
 
         if self.button_info.split('_')[0] == 'groups':
             data = DB_Group(PATH_TO_DB_DATA)
-            groups = await data.get_groups()
+            groups = await data.get_all_groups()
             self.button_list = [x['full_name'] for x in groups]
             self.button_id = [x['id'] for x in groups]
             await data.close()
         elif self.button_info.split('_')[0] == 'groupssetting':
             data = DB_Group(PATH_TO_DB_DATA)
-            groups = await data.get_groups()
+            groups = await data.get_all_groups()
             self.button_list = [x['full_name'] for x in groups]
             self.button_id = [x['id'] for x in groups]
             await data.close()
