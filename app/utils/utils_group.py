@@ -17,7 +17,7 @@ class DB_Group():
     
     async def update_group(self, id, type, status, full_name, on_off):
         await self._ensure_connection()
-        await self.db.execute("UPDATE group_data SET type=?, status=?, full_name=?, on_off=? WHERE id=?", (type, status, full_name, id, on_off))
+        await self.db.execute("UPDATE group_data SET type=?, status=?, full_name=?, on_off=? WHERE id=?", (type, status, full_name, on_off, id))
         await self.db.commit()
     
     async def get_groups(self):
