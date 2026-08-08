@@ -29,4 +29,4 @@ async def groups_start(message: Message, state: FSMContext):
 async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
 
-    logging.info(callback.data)
+    logging.info(callback.data.split(' ')[1].split('_')[1])
