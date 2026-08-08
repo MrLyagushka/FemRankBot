@@ -26,8 +26,8 @@ class DB_DownloadPhoto():
         await self._ensure_connection()
         data = await self.db.execute("INSERT OR IGNORE INTO photo (user_id, file_id, media_group_id, caption) VALUES (?, ?, ?, ?) RETURNING id", (user_id, file_id, media_group_id, caption))
         try:
-            return (await data.fetchone())['id']
             await self.db.commit()
+            return (await data.fetchone())['id']
         except TypeError:
             return -999999999
     
