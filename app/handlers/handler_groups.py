@@ -18,7 +18,7 @@ async def groups_start(message: Message, state: FSMContext):
     await state.clear()
 
     db = DB_Group(PATH_TO_DB_DATA)
-    group = await db.get_groups()
+    group = await db.get_all_groups()
     if group != []:
         await message.answer('Выберите группу для настройки: ', reply_markup= await DinamicKeyboard(1, 3, 'no', 0, f'groupssetting_{message.from_user.id}').generate_keyboard())
     elif group == []:
