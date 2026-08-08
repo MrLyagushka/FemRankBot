@@ -1,3 +1,5 @@
+import logging
+
 from aiogram import Router, F
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
@@ -27,4 +29,4 @@ async def groups_start(message: Message, state: FSMContext):
 async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
 
-    print(callback.data)
+    logging.info(callback.data)
