@@ -15,9 +15,9 @@ class DB_Group():
         await self.db.execute("INSERT INTO group_data (id, type, status, full_name) VALUES (?, ?, ?, ?)", (id, type, status, full_name))
         await self.db.commit()
     
-    async def update_group(self, id, type, status, full_name):
+    async def update_group(self, id, type, status, full_name, on_off):
         await self._ensure_connection()
-        await self.db.execute("UPDATE group_data SET type=?, status=?, full_name=? WHERE id=?", (type, status, full_name, id))
+        await self.db.execute("UPDATE group_data SET type=?, status=?, full_name=?, on_off=? WHERE id=?", (type, status, full_name, id, on_off))
         await self.db.commit()
     
     async def get_groups(self):
