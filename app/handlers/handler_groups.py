@@ -23,7 +23,7 @@ async def groups_start(message: Message, state: FSMContext):
         await message.answer(text="Нет подключенных групп, добавьте бота в группу", reply_markup=keyboard_my_photos_first_choice.markup)
 
 
-@router_groups.callback_query(F.data[:13] == 'groupssetting')
+@router_groups.callback_query(F.data[:27] == 'callback_data_groupssetting')
 async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
 
