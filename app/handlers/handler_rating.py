@@ -26,14 +26,14 @@ async def rating_cute_femboys(callback: CallbackQuery, state: FSMContext):
         await callback.message.edit_reply_markup(callback.inline_message_id, reply_markup=keyboard_rating_cute_femboys_legs.markup)
     elif data == "cute_femboys_legs_week":
         await callback.answer()
-        keyboard_rating_cute_femboys_legs.update_button('Недельный рейтинг', "В разработке", 1)
+        keyboard_rating_cute_femboys_legs.update_button('Недельный рейтинг', "В разработке")
         await callback.message.edit_reply_markup(callback.inline_message_id, reply_markup=keyboard_rating_cute_femboys_legs.markup)
-        keyboard_rating_cute_femboys_legs.update_button("В разработке", 'Недельный рейтинг', 1)
+        keyboard_rating_cute_femboys_legs.update_button("В разработке", 'Недельный рейтинг')
     elif data == "cute_femboys_legs_month":
         await callback.answer()
-        keyboard_rating_cute_femboys_legs.update_button('Месячный рейтинг', "В разработке", 1)
+        keyboard_rating_cute_femboys_legs.update_button('Месячный рейтинг', "В разработке")
         await callback.message.edit_reply_markup(callback.inline_message_id, reply_markup=keyboard_rating_cute_femboys_legs.markup)
-        keyboard_rating_cute_femboys_legs.update_button("В разработке", 'Месячный рейтинг', 1)
+        keyboard_rating_cute_femboys_legs.update_button("В разработке", 'Месячный рейтинг')
     elif data == "cute_femboys_legs_back":
         await callback.answer()
         await callback.message.edit_reply_markup(callback.inline_message_id, reply_markup=keyboard_rating_cute_femboys.markup)
@@ -47,14 +47,14 @@ async def rating_cute_femboys(callback: CallbackQuery, state: FSMContext):
         await callback.message.edit_reply_markup(callback.inline_message_id, reply_markup=keyboard_rating_cute_femboys_skirts.markup)
     elif data == "cute_femboys_skirts_week":
         await callback.answer()
-        keyboard_rating_cute_femboys_skirts.update_button('Недельный рейтинг', "В разработке", 1)
+        keyboard_rating_cute_femboys_skirts.update_button('Недельный рейтинг', "В разработке")
         await callback.message.edit_reply_markup(callback.inline_message_id, reply_markup=keyboard_rating_cute_femboys_skirts.markup)
-        keyboard_rating_cute_femboys_skirts.update_button("В разработке", 'Недельный рейтинг', 1)
+        keyboard_rating_cute_femboys_skirts.update_button("В разработке", 'Недельный рейтинг')
     elif data == "cute_femboys_skirts_month":
         await callback.answer()
-        keyboard_rating_cute_femboys_skirts.update_button('Месячный рейтинг', "В разработке", 1)
+        keyboard_rating_cute_femboys_skirts.update_button('Месячный рейтинг', "В разработке")
         await callback.message.edit_reply_markup(callback.inline_message_id, reply_markup=keyboard_rating_cute_femboys_skirts.markup)
-        keyboard_rating_cute_femboys_skirts.update_button("В разработке", 'Месячный рейтинг', 1)
+        keyboard_rating_cute_femboys_skirts.update_button("В разработке", 'Месячный рейтинг')
     elif data == "cute_femboys_skirts_back":
         await callback.answer()
         await callback.message.edit_reply_markup(callback.inline_message_id, reply_markup=keyboard_rating_cute_femboys.markup)
@@ -67,14 +67,14 @@ async def rating_cute_femboys(callback: CallbackQuery, state: FSMContext):
         await callback.message.edit_reply_markup(callback.inline_message_id, reply_markup=keyboard_rating_cute_femboys_other_beauty.markup)
     elif data == "cute_femboys_other_beauty_week":
         await callback.answer()
-        keyboard_rating_cute_femboys_other_beauty.update_button('Недельный рейтинг', "В разработке", 1)
+        keyboard_rating_cute_femboys_other_beauty.update_button('Недельный рейтинг', "В разработке")
         await callback.message.edit_reply_markup(callback.inline_message_id, reply_markup=keyboard_rating_cute_femboys_other_beauty.markup)
-        keyboard_rating_cute_femboys_other_beauty.update_button("В разработке", 'Недельный рейтинг', 1)
+        keyboard_rating_cute_femboys_other_beauty.update_button("В разработке", 'Недельный рейтинг')
     elif data == "cute_femboys_other_beauty_month":
         await callback.answer()
-        keyboard_rating_cute_femboys_other_beauty.update_button('Месячный рейтинг', "В разработке", 1)
+        keyboard_rating_cute_femboys_other_beauty.update_button('Месячный рейтинг', "В разработке")
         await callback.message.edit_reply_markup(callback.inline_message_id, reply_markup=keyboard_rating_cute_femboys_other_beauty.markup)
-        keyboard_rating_cute_femboys_other_beauty.update_button("В разработке", 'Месячный рейтинг', 1)
+        keyboard_rating_cute_femboys_other_beauty.update_button("В разработке", 'Месячный рейтинг')
     elif data == "cute_femboys_other_beauty_back":
         await callback.answer()
         await callback.message.edit_reply_markup(callback.inline_message_id, reply_markup=keyboard_rating_cute_femboys.markup)
