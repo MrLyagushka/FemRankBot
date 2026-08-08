@@ -12,7 +12,18 @@ install: ## 🚀 Первичная установка (запуск install.sh)
 	@chmod +x install.sh
 	@bash install.sh
 
-reload: ## 🔄 Пересборка и перезапуск контейнеров (применит новый код) с git pull
+reload: ## 🔄 Пересборка и перезапуск контейнеров (применит новый код) с git pull и logs
+	@echo "🗃️ Скачиваем обновление с github репозитория"
+	git pull origin main
+	@echo "🏗 Собираем новую версию основного бота (это может занять время)..."
+	docker compose build bot_dzshka
+	@echo "🚀 Запускаем обновленного бота..."
+	docker compose up -d bot_dzshka
+	@echo "✅ Обновление завершено! Бот снова в строю."
+	@echo "📋 Вывод логов..."
+	docker compose logs -f
+	
+reload-no-logs: ## 🔄 Пересборка и перезапуск контейнеров (применит новый код) с git pull без logs
 	@echo "🗃️ Скачиваем обновление с github репозитория"
 	git pull origin main
 	@echo "🏗 Собираем новую версию основного бота (это может занять время)..."
@@ -21,7 +32,7 @@ reload: ## 🔄 Пересборка и перезапуск контейнер�
 	docker compose up -d bot_dzshka
 	@echo "✅ Обновление завершено! Бот снова в строю."
 
-reload-no-git-pull: ## 🔄 Пересборка и перезапуск контейнеров (применит новый код) без git pull
+reload-no-git-pull-no-logs: ## 🔄 Пересборка и перезапуск контейнеров (применит новый код) без git pull без logs
 	@echo "🏗 Собираем новую версию основного бота (это может занять время)..."
 	docker compose build bot_dzshka
 	@echo "🚀 Запускаем обновленного бота..."
