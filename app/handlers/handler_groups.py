@@ -76,10 +76,10 @@ async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
     ]
     group = groups[0]
     if str(group['on_off']) == '1':
-        db.update_group(group['id'], group['type'], group['status'], group['full_name'], group['on_off'])
+        db.update_group(group['id'], group['type'], group['status'], group['full_name'], 0)
         keyboard_groups_choice.update_button('✅Включено', '❌Выключено')
     elif str(group['on_off']) == '0':
-        db.update_group(group['id'], group['type'], group['status'], group['full_name'], group['on_off'])
+        db.update_group(group['id'], group['type'], group['status'], group['full_name'], 1)
         keyboard_groups_choice.update_button('❌Выключено', '✅Включено')
     try:
         await callback.message.edit_reply_markup(inline_message_id=callback.inline_message_id, reply_markup=keyboard_groups_choice.markup)
