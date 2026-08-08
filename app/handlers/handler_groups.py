@@ -42,7 +42,7 @@ async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
         if x['id'] == int(callback.data.split(' ')[1].split('_')[1])
     ]
     group = groups[0]
-    await state.set_data(id=group['id'])
+    await state.set_data(groupsettingid=group['id'])
 
     logging.info(group)
 
@@ -59,7 +59,7 @@ async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
 @router_groups.callback_query(F.data[:12] == 'groupsstatus')
 async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
-    data = (await state.get_data())['id']
+    data = (await state.get_data())['groupsettingid']
     db = DB_Group(PATH_TO_DB_DATA)
     group = [
         {
