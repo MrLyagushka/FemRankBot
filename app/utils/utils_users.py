@@ -30,3 +30,8 @@ class DB_User():
         await self._ensure_connection()
         cursor = await self.db.execute("SELECT * FROM users")
         return await cursor.fetchall()
+
+    async def close(self):
+        if self.db:
+            await self.db.close()
+            self.db = None
