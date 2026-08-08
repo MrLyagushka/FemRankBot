@@ -63,7 +63,7 @@ async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
     data = (await state.get_data())['groupsettingid']
     db = DB_Group(PATH_TO_DB_DATA)
-    group = [
+    groups = [
         {
             'id': x['id'],
             'type': x['type'],
@@ -74,10 +74,11 @@ async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
         for x in await db.get_groups()
         if x['id'] == data
     ]
-    if group['on_off'] == '1':
+    group = groups[0]
+    if str(group['on_off']) == '1':
         db.update_group(group['id'], group['type'], group['status'], group['full_name'], group['on_off'])
         keyboard_groups_choice.update_button('✅Включено', '❌Выключено')
-    elif group['on_off'] == '0':
+    elif str(group['on_off']) == '0':
         db.update_group(group['id'], group['type'], group['status'], group['full_name'], group['on_off'])
         keyboard_groups_choice.update_button('❌Выключено', '✅Включено')
     try:
