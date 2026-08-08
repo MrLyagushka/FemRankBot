@@ -67,18 +67,6 @@ db-clean: ## ⚠️ ВНИМАНИЕ: Сброс и удаление файло�
 update: ## Обновление с git репозетория
 	git pull origin main
 
-db-update: ## 🗃️ Обновить базы данных (применить все .sql шаблоны к .db файлам)
-	@echo "🗃️ Обновление баз данных из SQL-шаблонов..."
-	@mkdir -p ./app/db
-	@for sql_file in ./app/db/*.sql; do \
-		if [ -f "$$sql_file" ]; then \
-			db_file="$${sql_file%.sql}"; \
-			echo "  → Применяем $$sql_file к $$db_file..."; \
-			sqlite3 "$$db_file" < "$$sql_file"; \
-		fi; \
-	done
-	@echo "✅ Структура баз данных успешно обновлена!"
-
 db-update: ## 🗃️ Автоматически добавить новые столбцы/таблицы из .sql шаблонов
 	@echo "🗃️ Запуск умной синхронизации баз данных..."
 	docker compose run --rm bot_dzshka python db_sync.py
