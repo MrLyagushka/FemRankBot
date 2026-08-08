@@ -42,7 +42,7 @@ async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
         if x['id'] == int(callback.data.split(' ')[1].split('_')[1])
     ]
     group = groups[0]
-    await state.set_data(groupsettingid=group['id'])
+    await state.update_data(groupsettingid=group['id'])
 
     logging.info(group)
 
