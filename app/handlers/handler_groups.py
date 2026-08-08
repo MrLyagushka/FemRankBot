@@ -57,6 +57,7 @@ async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
         await callback.message.edit_reply_markup(inline_message_id=callback.inline_message_id, reply_markup=keyboard_groups_choice.markup)
     except Exception as e:
         pass
+    db.close()
 
 @router_groups.callback_query(F.data[:12] == 'groupsstatus')
 async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
@@ -85,3 +86,5 @@ async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
         await callback.message.edit_reply_markup(inline_message_id=callback.inline_message_id, reply_markup=keyboard_groups_choice.markup)
     except Exception as e:
         pass
+    db.close()
+    
