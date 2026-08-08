@@ -74,7 +74,6 @@ async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
         for x in await db.get_groups()
         if x['id'] == data
     ]
-    logging.info(group)
     if group['on_off'] == '1':
         db.update_group(group['id'], group['type'], group['status'], group['full_name'], group['on_off'])
         keyboard_groups_choice.update_button('✅Включено', '❌Выключено')
