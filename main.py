@@ -32,7 +32,7 @@ def setup_logging_middlewares(dp: Dispatcher):
 async def main():
     spam_middleware = AntiSpamMiddleware()
 
-    setup_logging_middlewares(dp)
+    # setup_logging_middlewares(dp)
     dp.update.outer_middleware(spam_middleware)
 
     dp.include_routers(router_start, router_chat_member, router_rating, router_my_photos, router_groups, router_service_handlers, router_download_photos, router_archive)
