@@ -47,13 +47,11 @@ async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
     logging.info(group)
 
     await callback.message.edit_text(inline_message_id=callback.inline_message_id, text=f"Группа '{group['full_name']}'\nТип группы: {group['type']}\nId группы: {group['id']}\nСтатус бота в группе: {group['status']}")
-    if group['on_off'] == '1':
-        db.update_group(group['id'], group['type'], group['status'], group['full_name'], group['on_off'])
-        keyboard_groups_choice.update_button('✅Включено', '❌Выключено')
-    elif group['on_off'] == '0':
-        db.update_group(group['id'], group['type'], group['status'], group['full_name'], group['on_off'])
-        keyboard_groups_choice.update_button('❌Выключено', '✅Включено')
     try:
+        if group['on_off'] == '1':
+            keyboard_groups_choice.update_button('❌Выключено', '✅Включено')
+        elif group['on_off'] == '0':
+            keyboard_groups_choice.update_button('✅Включено', '❌Выключено')
         await callback.message.edit_reply_markup(inline_message_id=callback.inline_message_id, reply_markup=keyboard_groups_choice.markup)
     except Exception as e:
         pass
