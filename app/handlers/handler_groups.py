@@ -39,7 +39,7 @@ async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
             'on_off': x['on_off']
         }
         for x in await db.get_groups()
-        if x['id'] == callback.data.split(' ')[1].split('_')[1]
+        if x['id'] == int(callback.data.split(' ')[1].split('_')[1])
     ]
     group = groups[0]
     await state.set_data(id=group['id'])
