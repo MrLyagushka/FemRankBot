@@ -24,6 +24,11 @@ class DB_Group():
         await self._ensure_connection()
         cursor = await self.db.execute("SELECT * FROM group_data WHERE on_off=1")
         return await cursor.fetchall()
+
+    async def get_all_groups(self):
+            await self._ensure_connection()
+            cursor = await self.db.execute("SELECT * FROM group_data")
+            return await cursor.fetchall()
     
     async def close(self):
         if self.db:

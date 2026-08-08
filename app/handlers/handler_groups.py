@@ -38,13 +38,11 @@ async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
             'full_name': x['full_name'],
             'on_off': x['on_off']
         }
-        for x in await db.get_groups()
+        for x in await db.get_all_groups()
         if x['id'] == int(callback.data.split(' ')[1].split('_')[1])
     ]
     group = groups[0]
     await state.update_data(groupsettingid=group['id'])
-
-    logging.info(group)
 
     await callback.message.edit_text(inline_message_id=callback.inline_message_id, text=f"Группа '{group['full_name']}'\nТип группы: {group['type']}\nId группы: {group['id']}\nСтатус бота в группе: {group['status']}")
     try:
@@ -70,7 +68,7 @@ async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
             'full_name': x['full_name'],
             'on_off': x['on_off']
         }
-        for x in await db.get_groups()
+        for x in await db.get_all_groups()
         if x['id'] == data
     ]
     group = groups[0]
