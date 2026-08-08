@@ -21,3 +21,10 @@ async def groups_start(message: Message, state: FSMContext):
         await message.answer('Выберите группу для настройки: ', reply_markup= await DinamicKeyboard(1, 3, 'no', 0, f'groupssetting_{message.from_user.id}').generate_keyboard())
     elif group == []:
         await message.answer(text="Нет подключенных групп, добавьте бота в группу", reply_markup=keyboard_my_photos_first_choice.markup)
+
+
+@router_groups.callback_query(F.data[:13] == 'groupssetting')
+async def groups_groupssetting(callback: CallbackQuery, state: FSMContext):
+    await callback.answer()
+
+    print(callback.data)
